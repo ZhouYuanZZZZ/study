@@ -9,14 +9,6 @@
 <div id="div0"></div>
 
 
-${a}
-<br/>
-${"a"}
-<br/>
-
-${b}
-<br/>
-${"b"}
 <br/>
 
 <input type="text" value="${city.district}">

@@ -28,26 +28,17 @@ public class PageController {
 
   @InitBinder
   public void initBinder(WebDataBinder binder) {
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    dateFormat.setLenient(false);
-    binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));//true:允许输入空值，false:不能为空值
+
   }
 
-    //@ResponseBody
+
     @RequestMapping(value = "/toPage/{page}")
-    public String toPage(@PathVariable(value = "page") String page, TestPojo testPojo, Map map) {
+    @ResponseBody
+    public List<City> toPage(@PathVariable(value = "page") String page, TestPojo testPojo, Map map) {
 
 
       List<City> cities = cityMapper.selectByExample(null);
-      City city = new City();
-      city.setDistrict("'");
-      city.setCountrycode("dewd'ewdwed'ewdew'dewd'wed");
 
-      map.put("a","'");
-      map.put("b","dwedwefe'werewr'ewrwer'twet");
-      map.put("city",city);
-
-
-      return "test0";
+      return cities;
     }
 }
