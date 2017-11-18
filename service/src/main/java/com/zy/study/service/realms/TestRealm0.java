@@ -3,6 +3,7 @@ package com.zy.study.service.realms;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.realm.AuthenticatingRealm;
+import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -44,14 +45,16 @@ public class TestRealm0 extends AuthenticatingRealm {
         }
 
         //6. 根据用户的情况, 来构建 AuthenticationInfo 对象并返回. 通常使用的实现类为: SimpleAuthenticationInfo
-        //以下信息是从数据库中获取的.
+        //以下信息是从数据库中获取的.从数据库取出的密码只起对比的作用
         //1). principal: 认证的实体信息. 可以是 username, 也可以是数据表对应的用户的实体类对象.
         Object principal = username;
         //2). credentials: 密码.
-        Object credentials = "4bff02ab299a0903145a98515aa7ba6b";
+        Object credentials = "2fc3a15fae22803597790c223f137599";
         //3.realm Name
         String realmName = super.getName();
-        SimpleAuthenticationInfo   info = new SimpleAuthenticationInfo(principal,credentials,realmName);
+        //加盐,给用户的输入的token中的密码进行加盐加密操作
+        ByteSource credentialsSalt = ByteSource.Util.bytes(username);
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(principal,credentials,credentialsSalt,realmName);
 
         return info;
     }
