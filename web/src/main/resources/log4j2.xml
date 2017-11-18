@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
+    <!--
+    %level  日志级别
+    %d      日期
+    %logger  全类名
+    %msg     日志内容
+    %n       换行-->
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <!--<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>-->
@@ -9,6 +15,10 @@
     <Loggers>
 
         <Logger name="com.zy.study.mapper" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <Logger name="com.zy.study" level="info" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
 

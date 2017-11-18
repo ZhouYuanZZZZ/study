@@ -1,16 +1,24 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: zy
-  Date: 2017/11/17
-  Time: 15:55
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>Title</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
 </head>
 <body>
-login
+	
+	<h4>Login Page</h4>
+	
+	<form action="rest/shiro/login" method="POST">
+		username: <input type="text" name="username"/>
+		<br><br>
+		
+		password: <input type="password" name="password"/>
+		<br><br>
+		
+		<input type="submit" value="Submit"/>
+	</form>
+	
 </body>
 </html>
