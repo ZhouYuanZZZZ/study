@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class TestRealm0 extends AuthenticatingRealm {
+public class TestRealm1 extends AuthenticatingRealm {
 
-    public TestRealm0() {
+    public TestRealm1() {
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
         hashedCredentialsMatcher.setHashAlgorithmName("MD5");
         //加密的次数
@@ -21,13 +21,12 @@ public class TestRealm0 extends AuthenticatingRealm {
         this.setCredentialsMatcher(hashedCredentialsMatcher);
     }
 
-   private static final Logger logger = LoggerFactory.getLogger(TestRealm0.class);
+    private static final Logger logger = LoggerFactory.getLogger(TestRealm1.class);
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        logger.info("exe doGetAuthenticationInfo: {} {}",authenticationToken.toString(),"realm0");
+        logger.info("exe doGetAuthenticationInfo: {} {}",authenticationToken.toString(),"realm1");
         //1. 把 AuthenticationToken 转换为 UsernamePasswordToken
         UsernamePasswordToken upToken = (UsernamePasswordToken) authenticationToken;
-        //upToken.setRememberMe(true);
 
         //2. 从 UsernamePasswordToken 中来获取 username
         String username = upToken.getUsername();

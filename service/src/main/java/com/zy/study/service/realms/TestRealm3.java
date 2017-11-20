@@ -2,17 +2,24 @@ package com.zy.study.service.realms;
 
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.realm.AuthenticatingRealm;
+import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
-public class TestRealm0 extends AuthenticatingRealm {
+public class TestRealm3 extends AuthorizingRealm {
 
-    public TestRealm0() {
+    private static final Logger logger = LoggerFactory.getLogger(TestRealm3.class);
+
+    public TestRealm3(){
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
         hashedCredentialsMatcher.setHashAlgorithmName("MD5");
         //加密的次数
@@ -21,13 +28,31 @@ public class TestRealm0 extends AuthenticatingRealm {
         this.setCredentialsMatcher(hashedCredentialsMatcher);
     }
 
-   private static final Logger logger = LoggerFactory.getLogger(TestRealm0.class);
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+        logger.info("exe doGetAuthorizationInfo:{}","realm3");
+        //1. 从 PrincipalCollection 中来获取登录用户的信息
+        Object principal = principalCollection.getPrimaryPrincipal();
+
+        //2. 利用登录的用户的信息来用户当前用户的角色或权限(可能需要查询数据库)
+        Set<String> roles = new HashSet<>();
+        roles.add("user");
+        if("admin".equals(principal)){
+            roles.add("admin");
+        }
+
+        //3. 创建 SimpleAuthorizationInfo, 并设置其 reles 属性.
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo(roles);
+
+        //4. 返回 SimpleAuthorizationInfo 对象.
+        return info;
+    }
+
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        logger.info("exe doGetAuthenticationInfo: {} {}",authenticationToken.toString(),"realm0");
+        logger.info("exe doGetAuthenticationInfo: {} {}",authenticationToken.toString(),"realm3");
         //1. 把 AuthenticationToken 转换为 UsernamePasswordToken
         UsernamePasswordToken upToken = (UsernamePasswordToken) authenticationToken;
-        //upToken.setRememberMe(true);
 
         //2. 从 UsernamePasswordToken 中来获取 username
         String username = upToken.getUsername();
